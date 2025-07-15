@@ -1,0 +1,13 @@
+- npx create-expo-app@latest
+
+- npm run reset-project
+
+- npx expo start
+
+- install nativewind "https://www.nativewind.dev/docs/getting-started/installation"
+  # pasti ada error karena style belum terpakai -> maka pastikan konfigurasi di nativewind cocok di direktori kita
+
+- npm install clsx
+
+macam-macam useHook yang dipakat
+=> - useFonts, useEffect,
