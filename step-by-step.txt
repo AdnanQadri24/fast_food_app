@@ -9,5 +9,8 @@
 
 - npm install clsx
 
+#untuk settingan appwrite
+- npx expo install react-native-appwrite react-native-url-polyfill
+
 macam-macam useHook yang dipakat
 => - useFonts, useEffect,

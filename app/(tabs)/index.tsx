@@ -1,6 +1,7 @@
 import CartButton from "@/components/CartButton";
 import { images, offers } from "@/constants";
-import cx from "clsx";
+import useAuthStore from "@/store/auth.store";
+import cn from "clsx";
 import { Fragment } from "react";
 import {
   FlatList,
@@ -13,6 +14,10 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
+  const { user } = useAuthStore();
+
+  console.log("USER:", JSON.stringify(user, null, 2));
+
   return (
     // safeareaview digunakan untuk membatasi isi dengan pinggiran
     <SafeAreaView className="flex-1 bg-white">
@@ -24,7 +29,7 @@ export default function Index() {
           return (
             <View>
               <Pressable
-                className={cx(
+                className={cn(
                   "offer-card",
                   isEven ? "flex-row-reverse" : "flex-row"
                 )}
@@ -41,7 +46,7 @@ export default function Index() {
                       />
                     </View>
                     <View
-                      className={cx(
+                      className={cn(
                         "offer-card__info",
                         isEven ? "pl-10" : "pr-10"
                       )}
@@ -51,6 +56,11 @@ export default function Index() {
                       </Text>
                       <Image
                         source={images.arrowRight}
+                        // style={{
+                        //   transform: isEven
+                        //     ? "rotate(0deg)"
+                        //     : "rotate(180deg)",
+                        // }}
                         className="size-10"
                         resizeMode="contain"
                         tintColor="#ffffff"
@@ -75,6 +85,7 @@ export default function Index() {
                 />
               </TouchableOpacity>
             </View>
+
             <CartButton />
           </View>
         )}
