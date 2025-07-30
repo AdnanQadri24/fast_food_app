@@ -16,8 +16,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function Index() {
   const { user } = useAuthStore();
 
-  console.log("USER:", JSON.stringify(user, null, 2));
-
   return (
     // safeareaview digunakan untuk membatasi isi dengan pinggiran
     <SafeAreaView className="flex-1 bg-white">

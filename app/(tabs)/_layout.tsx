@@ -41,8 +41,8 @@ export default function TabLayout() {
         tabBarStyle: {
           position: "absolute",
           backgroundColor: "#f8f8f8",
-          borderTopLeftRadius: 40, 
-          borderTopRightRadius: 40,
+          // borderTopLeftRadius: 40, 
+          // borderTopRightRadius: 40,
           height: 60 + insets.bottom, // tinggi + safe area bawah
           paddingBottom: insets.bottom, // biar icon tab tetap naik
           borderTopWidth: 0,
