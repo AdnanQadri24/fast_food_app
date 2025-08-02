@@ -53,16 +53,16 @@ export const createUser = async ({
       ID.unique(),
       { email, name, accountId: newAccount.$id, avatar: avatarUrl }
     );
-  } catch (error) {
-    throw new Error(error as string);
+  } catch (e) {
+    throw new Error(e as string);
   }
 };
 
 export const signIn = async ({ email, password }: SignInParams) => {
   try {
     const session = await account.createEmailPasswordSession(email, password);
-  } catch (error) {
-    throw new Error(error as string);
+  } catch (e) {
+    throw new Error(e as string);
   }
 };
 
@@ -80,15 +80,16 @@ export const getCurrentUser = async () => {
     if (!currentUser) throw Error;
 
     return currentUser.documents[0];
-  } catch (error) {
-    console.log(error);
-    throw new Error(error as string);
+  } catch (e) {
+    console.log(e);
+    throw new Error(e as string);
   }
 };
 
 export const getMenu = async ({ category, query }: GetMenuParams) => {
   try {
     const queries: string[] = [];
+
     if (category) queries.push(Query.equal("categories", category));
     if (query) queries.push(Query.search("name", query));
 

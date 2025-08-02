@@ -3,9 +3,8 @@ import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { Image, TextInput, TouchableOpacity, View } from "react-native";
 
-const SearchBar = () => {
+const Searchbar = () => {
   const params = useLocalSearchParams<{ query: string }>();
-
   const [query, setQuery] = useState(params.query);
 
   const handleSearch = (text: string) => {
@@ -16,7 +15,7 @@ const SearchBar = () => {
 
   const handleSubmit = () => {
     if (query.trim()) router.setParams({ query });
-  };
+  }
 
   return (
     <View className="searchbar">
@@ -37,11 +36,11 @@ const SearchBar = () => {
           source={images.search}
           className="size-6"
           resizeMode="contain"
-          tintColor="#5d5f6d"
+          tintColor="#5D5F6D"
         />
       </TouchableOpacity>
     </View>
   );
 };
 
-export default SearchBar;
+export default Searchbar;

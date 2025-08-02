@@ -1,14 +1,14 @@
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+
 import { CustomButtonProps } from "@/type";
 import cn from "clsx";
-import React from "react";
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 
 const CustomButton = ({
   onPress,
   title = "Click Me",
   style,
-  textStyle,
   leftIcon,
+  textStyle,
   isLoading = false,
 }: CustomButtonProps) => {
   return (
@@ -18,7 +18,7 @@ const CustomButton = ({
         {isLoading ? (
           <ActivityIndicator size="small" color="white" />
         ) : (
-          <Text className={cn("text-white-100 paragraph-semibold")}>
+          <Text className={cn("text-white-100 paragraph-semibold", textStyle)}>
             {title}
           </Text>
         )}

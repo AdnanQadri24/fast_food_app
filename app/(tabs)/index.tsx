@@ -1,6 +1,3 @@
-import CartButton from "@/components/CartButton";
-import { images, offers } from "@/constants";
-import useAuthStore from "@/store/auth.store";
 import cn from "clsx";
 import { Fragment } from "react";
 import {
@@ -13,17 +10,21 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import CartButton from "@/components/CartButton";
+import { images, offers } from "@/constants";
+import useAuthStore from "@/store/auth.store";
+import { router } from "expo-router";
+
 export default function Index() {
   const { user } = useAuthStore();
 
   return (
-    // safeareaview digunakan untuk membatasi isi dengan pinggiran
     <SafeAreaView className="flex-1 bg-white">
       <FlatList
         data={offers}
-        contentContainerClassName="pb-28 px-5"
         renderItem={({ item, index }) => {
-          const isEven: boolean = index % 2 === 0;
+          const isEven = index % 2 === 0;
+
           return (
             <View>
               <Pressable
@@ -33,6 +34,7 @@ export default function Index() {
                 )}
                 style={{ backgroundColor: item.color }}
                 android_ripple={{ color: "#fffff22" }}
+                onPress={() => router.push("/search")}
               >
                 {({ pressed }) => (
                   <Fragment>
@@ -43,22 +45,18 @@ export default function Index() {
                         resizeMode={"contain"}
                       />
                     </View>
+
                     <View
                       className={cn(
                         "offer-card__info",
                         isEven ? "pl-10" : "pr-10"
                       )}
                     >
-                      <Text className="text-white h1-bold leading-tight">
+                      <Text className="h1-bold text-white leading-tight">
                         {item.title}
                       </Text>
                       <Image
                         source={images.arrowRight}
-                        // style={{
-                        //   transform: isEven
-                        //     ? "rotate(0deg)"
-                        //     : "rotate(180deg)",
-                        // }}
                         className="size-10"
                         resizeMode="contain"
                         tintColor="#ffffff"
@@ -70,11 +68,12 @@ export default function Index() {
             </View>
           );
         }}
+        contentContainerClassName="pb-28 px-5"
         ListHeaderComponent={() => (
           <View className="flex-between flex-row w-full my-5">
             <View className="flex-start">
-              <Text className="text-primary small-bold">DELIVER TO</Text>
-              <TouchableOpacity className="flex-center flex-row items-center gap-x-1 mt-0.5">
+              <Text className="small-bold text-primary">DELIVER TO</Text>
+              <TouchableOpacity className="flex-center flex-row gap-x-1 mt-0.5">
                 <Text className="paragraph-bold text-dark-100">Croatia</Text>
                 <Image
                   source={images.arrowDown}
