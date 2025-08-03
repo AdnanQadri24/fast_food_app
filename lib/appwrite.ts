@@ -34,6 +34,25 @@ export const databases = new Databases(client);
 export const storage = new Storage(client);
 const avatars = new Avatars(client);
 
+// Fungsi untuk mengecek apakah ada session aktif
+export const checkSession = async () => {
+  try {
+    const session = await account.getSession("current");
+    return session;
+  } catch (error) {
+    return null;
+  }
+};
+
+// Fungsi untuk logout
+export const signOut = async () => {
+  try {
+    await account.deleteSession("current");
+  } catch (error) {
+    console.log("Error during logout:", error);
+  }
+};
+
 export const createUser = async ({
   email,
   password,
@@ -60,16 +79,52 @@ export const createUser = async ({
 
 export const signIn = async ({ email, password }: SignInParams) => {
   try {
+    // Cek apakah sudah ada session aktif
+    const existingSession = await checkSession();
+
+    if (existingSession) {
+      // Jika sudah ada session, hapus dulu session yang lama
+      await signOut();
+    }
+
+    // Buat session baru
     const session = await account.createEmailPasswordSession(email, password);
+    return session;
   } catch (e) {
-    throw new Error(e as string);
+    // Tangani error dengan lebih spesifik
+    if (e instanceof Error) {
+      if (
+        e.message.includes(
+          "creation of a session is prohibited when a session is active"
+        )
+      ) {
+        // Jika error karena session sudah aktif, coba logout dulu lalu login ulang
+        try {
+          await signOut();
+          const session = await account.createEmailPasswordSession(
+            email,
+            password
+          );
+          return session;
+        } catch (retryError) {
+          throw new Error(
+            "Gagal login setelah mencoba logout. Silakan coba lagi."
+          );
+        }
+      }
+      throw new Error(e.message);
+    }
+    throw new Error("Terjadi kesalahan saat login");
   }
 };
 
 export const getCurrentUser = async () => {
   try {
     const currentAccount = await account.get();
-    if (!currentAccount) throw Error;
+    if (!currentAccount) {
+      console.log("No current account found");
+      return null;
+    }
 
     const currentUser = await databases.listDocuments(
       appwriteConfig.databaseId,
@@ -77,12 +132,15 @@ export const getCurrentUser = async () => {
       [Query.equal("accountId", currentAccount.$id)]
     );
 
-    if (!currentUser) throw Error;
+    if (!currentUser || currentUser.documents.length === 0) {
+      console.log("No user document found for account:", currentAccount.$id);
+      return null;
+    }
 
     return currentUser.documents[0];
   } catch (e) {
-    console.log(e);
-    throw new Error(e as string);
+    console.log("getCurrentUser error:", e);
+    return null;
   }
 };
 

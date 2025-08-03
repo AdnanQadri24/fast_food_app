@@ -1,13 +1,22 @@
 import CustomButton from "@/components/CustomButton";
 import CustomInput from "@/components/CustomInput";
-import { signIn } from "@/lib/appwrite";
+import { getCurrentUser, signIn } from "@/lib/appwrite";
+import useAuthStore from "@/store/auth.store";
 import { Link, router } from "expo-router";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, Text, View } from "react-native";
 
 const SignIn = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
+  const { setUser, setIsAuthenticated, isAuthenticated } = useAuthStore();
+
+  // Redirect otomatis jika sudah terautentikasi
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/");
+    }
+  }, [isAuthenticated]);
 
   const submit = async () => {
     const { email, password } = form;
@@ -15,14 +24,23 @@ const SignIn = () => {
       return Alert.alert("Error", "Please enter valid email and password !");
 
     setIsSubmitting(true);
-    
+
     try {
       // memanggil fungsi appwrite sign in
       await signIn({
         email,
         password,
       });
-      router.replace("/");
+
+      // Ambil data user langsung
+      const user = await getCurrentUser();
+
+      if (user) {
+        setUser(user as any);
+        setIsAuthenticated(true);
+      } else {
+        throw new Error("Gagal mendapatkan data user");
+      }
     } catch (error: any) {
       Alert.alert("Error", error.message);
     } finally {
