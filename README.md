@@ -6,7 +6,7 @@ A mobile application built with **Expo** and **React Native**.
 
 ## 🎥 Demo
 
-[![Demo](assets/demo.mp4)](https://github.com/user-attachments/assets/demo.mp4)
+[![Watch Demo](assets/demo-thumbnail.png)](https://github.com/user-attachments/assets/8c67a3d1-1a2b-4e5f-9abc-123456789abc)
 
 
 ---
@@ -17,7 +17,7 @@ A mobile application built with **Expo** and **React Native**.
 
 ```bash
 git clone https://github.com/AdnanQadri24/fast_food_app.git
-cd your-repository
+cd fast_food_app
 ```
 
 ### 2. Install dependencies
