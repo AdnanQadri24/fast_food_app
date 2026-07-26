@@ -6,7 +6,7 @@ A mobile application built with **Expo** and **React Native**.
 
 ## 🎥 Demo
 
-[![Watch Demo](assets/demo-thumbnail.png)](https://github.com/user-attachments/assets/8c67a3d1-1a2b-4e5f-9abc-123456789abc)
+https://github.com/user-attachments/assets/6ef23931-9488-457e-ae8e-22e83db8574d
 
 
 ---
